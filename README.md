@@ -20,7 +20,7 @@ This will produce a c file, which you compile using something like this:
 
 Notice you need to point the compiler ar your installed python headers - which may not be in the same place as mine.
 
-If compilation is sucessful, then you'll obtain a compute.so file, which can be imported from python as normal. You can
+If compilation is successful, then you'll obtain a compute.so file, which can be imported from python as normal. Windows compilation will be a little more complex, as gcc isn't available to you. [Here might help!](https://github.com/cython/cython/wiki/CythonExtensionsOnWindows)
 
 ### Running the code
 You can run the code like this:
