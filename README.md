@@ -1,9 +1,10 @@
 # convolve
-Simple demonstration of separable convolutions. I've written this in python 3 using cython for a significant speed boost. This is a demo project only, it could contain errors! In most cases if you want to use convolutions you're safer using a library like numpy or opencv. These tend to use a fourier transform for large convolutions, so I avoided them here just to show the performance benefits.
+Simple demonstration of separable convolutions. This includes a standard gaussian blur, and a more recent lens blur using complex kernels. This is a demo project only, it could contain errors!
 
-This is written in python, but I may well add a C# implementation soon, since getting cython compiled in windows is a little more work.
+## Gaussian Blur
+I've written this in python 3 using cython for a significant speed boost. In most cases if you want to use convolutions you're safer using a library like numpy or opencv. These tend to use a fourier transform for large convolutions, so I avoided them here just to show the performance benefits.
 
-## Python
+### Python
 To run this code you'll need python 3, and cython installed. I've used this in linux, it should port fairly easily to other operating systems. Cython in windows is a little more difficult, but doable!
 
 ### Compiling with Cython
@@ -25,12 +26,21 @@ If compilation is successful, then you'll obtain a compute.so file, which can be
 ### Running the code
 You can run the code like this:
 
-`python run.py --sigma 3.0 ./christmas.jpg ./christmas.out.jpg`
+`python run.gaussian.py --sigma 3.0 ./christmas.jpg ./christmas.out.jpg`
 
 My included christmas tree picture is fairly large, so even a small convolution will take a while. You'll see quite a difference if you run this with the `--no_separable_filters` option though.
 
+## Lens Blur
+This is also written in python 3, without cython this time. Complex convolutions aren't too difficuly, but I decided the scypi library was easier here. This lens blur is the sum of a number of components, which means that the time taken scales linearly with the number of components you wish to use. Larger images with high component counts will take a fair while!
 
+### Running the code
+You can run the code like this:
 
+`python run.lens.py --radius 50 --components 3 --exposure_gamma 3 ./M35.jpg ./M35.out.jpg`
+
+I found numpy raises memory issues if you use very large images, avoiding the stack function would probably fix this, but I decided not to worry about it.
+
+One interesting difference between this simulated lens blur and a real lens is that the lighting works differently. I used a gamma-like function to increase the exposure prior to convolving, and then reverse this afterwards, I found this tends to highlight the brighter areas of the image, but results will depend on your settings, and the image you are filtering.
 
 
 
